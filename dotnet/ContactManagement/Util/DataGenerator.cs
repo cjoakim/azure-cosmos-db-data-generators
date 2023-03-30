@@ -33,11 +33,11 @@ namespace ContactManagement.Util
         private static Dictionary<string, string> uniqueCompanyDict = new Dictionary<string, string>();
         private static Dictionary<string, string> uniqueContactDict = new Dictionary<string, string>();
 
-        public static void generateJsonFiles()
+        public static void generate(string format)
         {
-            generateCompaniesJson();
-            generateContactsJson();
-            generateContactMethodsJson();
+            generateCompanies(format);
+            generateContacts(format);
+            generateContactMethods(format);
 
             Console.WriteLine($"companyNameDict count: {uniqueCompanyDict.Count}");
             FileUtil.writeObjectAsJson(uniqueCompanyDict, "data/companyNameDict.json");
@@ -48,7 +48,7 @@ namespace ContactManagement.Util
             Console.WriteLine("TODO - implement");
         }
 
-        private static void generateCompaniesJson()
+        private static void generateCompanies(string format)
         {
             Console.WriteLine("generateCompanies...");
             List<Company> companyList = new List<Company>();
@@ -66,9 +66,9 @@ namespace ContactManagement.Util
                         uniqueCompanyDict.Add(c.name, "");
                         companyList.Add(c);
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
-                        //Console.WriteLine(e);
+                        Console.WriteLine(e);
                     }
                 }
             }
@@ -143,11 +143,10 @@ namespace ContactManagement.Util
                     break; // we've run out of values in Bogus
                 }
             }
-
             return null;
         }
 
-        private static void generateContactsJson()
+        private static void generateContacts(string format)
         {
             Console.WriteLine("generateContacts...");
             List<Contact> contactList = new List<Contact>();
@@ -282,9 +281,9 @@ namespace ContactManagement.Util
             return values[index];
         }
 
-        private static void generateContactMethodsJson()
+        private static void generateContactMethods(string format)
         {
-            Console.WriteLine("generateContactMegenerateContactMethodsJsonthods...");
+            Console.WriteLine("generateContactMethods...");
             List<ContactMethod> contactMethodsList = new List<ContactMethod>();
 
             foreach (var pk in contactDict.Keys)

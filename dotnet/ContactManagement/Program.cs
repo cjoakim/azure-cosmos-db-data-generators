@@ -17,7 +17,6 @@ namespace ContactManagement
         private static string[]  cliArgs = null;
         private static string    cliFunction = null;
         private static AppConfig config = null;
-        private static CosmosClient cosmosClient = null;
 
         static async Task Main(string[] args)
         {
@@ -27,7 +26,6 @@ namespace ContactManagement
                 await Task.Delay(0);
                 return;
             }
-
             cliArgs = args;
             config = AppConfig.Singleton(cliArgs);
             cliFunction = args[0];
@@ -36,11 +34,8 @@ namespace ContactManagement
             {
                 switch (cliFunction)
                 {
-                    case "generate_json_files":
-                        await GenerateJsonFiles();
-                        break;
-                    case "generate_csv_files":
-                        await GenerateCsvFiles();
+                    case "generate":
+                        await Generate(args[0]);
                         break;
                     default:
                         PrintCliExamples($"invalid cliFunction: {cliFunction}");
@@ -51,13 +46,6 @@ namespace ContactManagement
             {
                 Console.WriteLine($"ERROR: Exception in Main() - ", e.Message);
                 Console.WriteLine(e.StackTrace);
-            }
-            finally
-            {
-                if (cosmosClient != null)
-                {
-                    cosmosClient.Dispose();
-                }
             }
             await Task.Delay(0);
         }
@@ -70,20 +58,14 @@ namespace ContactManagement
             }
             Console.WriteLine("");
             Console.WriteLine("Command-Line Examples:");
-            Console.WriteLine("dotnet run generate_json_files");
-            Console.WriteLine("dotnet run generate_csv_files");
+            Console.WriteLine("dotnet run generate json");
+            Console.WriteLine("dotnet run generate csv");
             Console.WriteLine("");
         }
 
-        private static async Task GenerateJsonFiles()
+        private static async Task Generate(string format)
         {
-            DataGenerator.generateJsonFiles();
-            await Task.CompletedTask;
-        }
-
-        private static async Task GenerateCsvFiles()
-        {
-            DataGenerator.generateCsvFiles();
+            DataGenerator.generate(format);
             await Task.CompletedTask;
         }
     }
