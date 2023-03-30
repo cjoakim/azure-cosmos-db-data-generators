@@ -86,38 +86,5 @@ namespace ContactManagement
             DataGenerator.generateCsvFiles();
             await Task.CompletedTask;
         }
-
-        private static List<BaseDocument> ReadJsonDocumentsFile(string infile, string doctype)
-        {
-            List<BaseDocument> baseDocs = new List<BaseDocument>();
-            switch (doctype)
-            {
-                case "company":
-                    List<Company> companies = FileUtil.readCompanyDocumentsList(infile);
-                    for (int i = 0; i < companies.Count; i++)
-                    {
-                        baseDocs.Add((BaseDocument)companies[i]);
-                    }
-
-                    break;
-                case "contact":
-                    List<Contact> contacts = FileUtil.readContactDocumentsList(infile);
-                    for (int i = 0; i < contacts.Count; i++)
-                    {
-                        baseDocs.Add((BaseDocument)contacts[i]);
-                    }
-
-                    break;
-                case "contact_method":
-                    List<ContactMethod> contactMethods = FileUtil.readContactMethodsDocumentsList(infile);
-                    for (int i = 0; i < contactMethods.Count; i++)
-                    {
-                        baseDocs.Add((BaseDocument)contactMethods[i]);
-                    }
-
-                    break;
-            }
-            return baseDocs;
-        }
     }
 }
