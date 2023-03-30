@@ -1,8 +1,6 @@
 ﻿using Azure.Core.GeoJson;
-using ContactManagement.Cosmos;
 using ContactManagement.Model;
 using ContactManagement.Util;
-using Microsoft.Azure.Cosmos;
 using Newtonsoft.Json;
 
 namespace ContactManagement
