@@ -3,7 +3,7 @@
 public class ApplicationConfig
 {
     /**
-     * This class defines application configuration values, including UI config.
+     * This class defines application configuration values.
      *
      * Chris Joakim, Microsoft, 2023
      */
@@ -30,14 +30,5 @@ public class ApplicationConfig
         definedNotificationPreferences.Add(AppConstants.NOTIFICATION_PREF_MARKETING_UPDATES);
         definedNotificationPreferences.Add(AppConstants.NOTIFICATION_PREF_INVOICES);
         definedNotificationPreferences.Add(AppConstants.NOTIFICATION_PREF_JOB_REMINDERS);
-    }
-
-    public Dictionary<string, List<string>> uiConfig()
-    {
-        Dictionary<string, List<string>> d = new Dictionary<string, List<string>>();
-        d.Add("roles", definedRoles);
-        d.Add("contactMethods", definedContactMethods);
-        d.Add("notificationPreferences", definedNotificationPreferences);
-        return d;
     }
 }

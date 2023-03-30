@@ -20,21 +20,6 @@ namespace ContactManagement.Util
             return true;
         }
 
-        public static List<GenericDocument> readGenericDocuments(string infile)
-        {
-            try
-            {
-                string json = File.ReadAllText(infile);
-                List<GenericDocument> docs = JsonSerializer.Deserialize<List<GenericDocument>>(json);
-                return docs;
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                return null;
-            }
-        }
-
         public static List<Company> readCompanyDocumentsList(string infile)
         {
             try
