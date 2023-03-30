@@ -8,10 +8,10 @@
     
     public class BaseDocument
     {
-        public string id { get; set; }
-        public string pk { get; set; }
+        public long id { get; set; }     // contact_id uuid DEFAULT uuid_generate_v4 (),
+        public long pk { get; set; }
         public string doctype { get; set; }
-        public string companyId { get; set; }
+        public long company_id { get; set; }
 
         public string _etag { get; set; }
         

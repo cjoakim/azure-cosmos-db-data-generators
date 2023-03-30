@@ -62,7 +62,7 @@ namespace ContactManagement.Util
                     try
                     {
                         Company c = createCompany(false, i);
-                        companyDict.Add(c.pk, c);
+                        companyDict.Add("" + c.pk, c);
                         uniqueCompanyDict.Add(c.name, "");
                         companyList.Add(c);
                     }
@@ -82,7 +82,7 @@ namespace ContactManagement.Util
                     Company c = createCompany(true, i);
                     try
                     {
-                        companyDict.Add(c.pk, c);
+                        companyDict.Add("" + c.pk, c);
                         if (i < 10010)
                         {
                             Console.WriteLine($"company {name} is jumbo");
@@ -193,26 +193,19 @@ namespace ContactManagement.Util
             companySeq++;
             var faker = new Bogus.Faker();
             Company c = new Company();
-            c.id = Guid.NewGuid().ToString();
-            if (seq >= 0)
-            {
-                c.pk = "corp" + seq;
-            }
-            else
-            {
-                c.pk = "corp" + epoch();   
-            }
-            c.companyId = c.pk;
+            c.id = IdSequence.Next();
+            c.pk = c.id;
+            c.company_id = c.pk;
             c.name = newUniqueCompanyName(isCorp);
             if (isCorp)
             {
-                c.orgType = AppConstants.ORG_TYPE_CORPORATION;  
+                c.org_type = AppConstants.ORG_TYPE_CORPORATION;  
             }
             else
             {
-                c.orgType = AppConstants.ORG_TYPE_SMALL_BUSINESS;
+                c.org_type = AppConstants.ORG_TYPE_SMALL_BUSINESS;
             }
-            c.hqState = faker.Address.StateAbbr();
+            c.hq_state = faker.Address.StateAbbr();
             return c;
         }
         
@@ -220,11 +213,11 @@ namespace ContactManagement.Util
         {
             contactSeq++;
             Contact c = new Contact();
-            c.id = Guid.NewGuid().ToString();
+            c.id = IdSequence.Next();
             c.pk = company.pk;
             c.doctype = AppConstants.DOCTYPE_CONTACT;
-            c.contactId = c.id;
-            c.companyId = company.id;
+            c.contact_id = c.id;
+            c.company_id = company.id;
             c.name = (new Bogus.Faker().Person.FullName) + " " + contactSeq;  // contactSeq is a hack to work around the Faker limited namespace
             c.preferredContactMethod = randomContactMethod();
             c.addRole(randomRole());
@@ -303,7 +296,7 @@ namespace ContactManagement.Util
         public static ContactMethod createContactMethod(Contact contact)
         {
             ContactMethod cm = new ContactMethod(contact);
-            cm.companyId = contact.companyId;
+            cm.company_id = contact.company_id;
             cm.type = contact.preferredContactMethod;
 
             switch (contact.preferredContactMethod)

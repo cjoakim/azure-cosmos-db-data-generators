@@ -9,7 +9,7 @@
     
     public class Contact : BaseDocument
     {
-        public string contactId { get; set; }   // enables easy joins to ContactMethod documents
+        public long contact_id { get; set; }   // enables easy joins to ContactMethod documents
         public string name { get; set; }
         public string preferredContactMethod { get; set; }
         public string uniqueKey { get; set; }

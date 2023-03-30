@@ -21,10 +21,10 @@
     
     public class Company : BaseDocument
     {
-        // Inherited: id, pk, doctype, companyId
+        // Inherited: id, pk, doctype, companyId, created_on, modified_on
         public string name { get; set; }
-        public string orgType { get; set; }
-        public string hqState { get; set; }
+        public string org_type { get; set; }
+        public string hq_state { get; set; }
 
         public string memo { get; set; }
         
@@ -32,18 +32,19 @@
         
         public Company()
         {
+            this.id = IdSequence.Next();
             this.doctype = AppConstants.DOCTYPE_COMPANY;
             this.jumbo = false;
         }
 
         public bool isSmallBusiness()
         {
-            return AppConstants.ORG_TYPE_SMALL_BUSINESS.Equals(orgType);
+            return AppConstants.ORG_TYPE_SMALL_BUSINESS.Equals(org_type);
         }
 
         public bool isCorporation()
         {
-            return AppConstants.ORG_TYPE_CORPORATION.Equals(orgType);
+            return AppConstants.ORG_TYPE_CORPORATION.Equals(org_type);
         }
     }
 }
