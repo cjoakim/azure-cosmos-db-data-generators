@@ -2,8 +2,8 @@
 
 **/.idea/
 
-dotnet\ContactManagement\data\*.csv
-dotnet\ContactManagement\data\*.json
+dotnet/ContactManagement/data/*.csv
+dotnet/ContactManagement/data/*.json
 
 ## ============================================================================
 
