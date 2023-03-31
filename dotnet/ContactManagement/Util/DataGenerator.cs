@@ -16,22 +16,14 @@ namespace ContactManagement.Util
     public class DataGenerator
     {
         // Parameters: Companies
-        private static int smallBusinessCount    = 1000;
-        private static int corporationCount      =  100;
+        private static int smallBusinessCount = 100;  // 1000
+        private static int corporationCount   =  10;  // 100
         private static int contactSeq = 0;
         private static int companySeq = 0;
-        // Actual counts shared 2/11:
-        // Live Tenants - 8,089; # Contacts - 563,475,057
-        // Contacts distribution per tenant - (Tenants with > 1K Contacts)
-        // Tenant Count:  7,588 
-        // Avg:          74,241
-        // Min:           1,024
-        // Max:       4,620,697
-        // Median:       27,252
-            
+
         // Parameters: Contacts
         private static int maxContactsPerSmallBusiness = 3;
-        private static int maxContactsPerCorporation = 10;
+        private static int maxContactsPerCorporation   = 10;
 
         // Generated Data Objects
         private static Dictionary<string, Company> companyDict = new Dictionary<string, Company>();
@@ -58,7 +50,6 @@ namespace ContactManagement.Util
 
             for (int i = 0; i < smallBusinessCount; i++)
             {
-                var faker = new Bogus.Faker();
                 string name = newUniqueCompanyName(false);
                 if (name != null)
                 {
@@ -69,24 +60,24 @@ namespace ContactManagement.Util
                         uniqueCompanyDict.Add(c.name, "");
                         companyList.Add(c);
                     }
-                    catch (Exception)
+                    catch (Exception e)
                     {
-                        //Console.WriteLine(e);
+                        Console.WriteLine(e);
                     }
                 }
             }
 
-            for (int i = 10000; i < 10000 + corporationCount; i++)
+            for (int i = 0; i < corporationCount; i++)
             {
                 var faker = new Bogus.Faker();
                 string name = newUniqueCompanyName(true);
                 if (name != null)
                 {
-                    Company c = createCompany(true, i);
+                    Company c = createCompany(true, i + 10000);
                     try
                     {
                         companyDict.Add(c.pk, c);
-                        if (i < 10010)
+                        if (i < 10)
                         {
                             Console.WriteLine($"company {name} is jumbo");
                             c.jumbo = true;
@@ -100,7 +91,6 @@ namespace ContactManagement.Util
                     }
                 }
             }
-
             Console.WriteLine($"companyList count: {companyList.Count}");
             FileUtil.writeObjectAsJson(companyList, "data/companyList.json");
             Thread.Sleep(1000);
@@ -146,7 +136,6 @@ namespace ContactManagement.Util
                     break; // we've run out of values in Bogus
                 }
             }
-
             return null;
         }
 
@@ -197,7 +186,7 @@ namespace ContactManagement.Util
             companySeq++;
             var faker = new Bogus.Faker();
             Company c = new Company();
-            c.id = Guid.NewGuid().ToString();
+            c.id = IdFactory.NextUuid();
             if (seq >= 0)
             {
                 c.pk = "corp" + seq;
@@ -307,6 +296,7 @@ namespace ContactManagement.Util
         public static ContactMethod createContactMethod(Contact contact)
         {
             ContactMethod cm = new ContactMethod(contact);
+            cm.id = IdFactory.NextUuid();
             cm.companyId = contact.companyId;
             cm.type = contact.preferredContactMethod;
 

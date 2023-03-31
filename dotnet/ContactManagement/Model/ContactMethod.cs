@@ -22,8 +22,6 @@
 
         public ContactMethod(Contact contact)
         {
-            this.id = Guid.NewGuid().ToString();
-            this.pk = contact.pk;
             this.contactId = contact.id;
             this.doctype = AppConstants.DOCTYPE_CONTACT_METHOD;
         }

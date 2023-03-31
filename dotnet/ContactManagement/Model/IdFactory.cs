@@ -3,15 +3,16 @@ namespace ContactManagement.Model;
 public class IdFactory
 {
     private static long sequence = 1000000;
-    private static Dictionary<long, string> idDictionary = new Dictionary<long, string>();
-    private static Dictionary<string, long> uuidDictionary = new Dictionary<string, long>();
+    private static Dictionary<string, string> idDictionary = new Dictionary<string, string>();
+    private static Dictionary<string, string> uuidDictionary = new Dictionary<string, string>();
     
     public static long NextInt()
     {
         sequence++;
+        string seqStr = "" + sequence;
         string uuid = Guid.NewGuid().ToString();
-        idDictionary.Add(sequence, uuid);
-        uuidDictionary.Add(uuid, sequence);
+        idDictionary.Add(seqStr, uuid);
+        uuidDictionary.Add(uuid, seqStr);
         return sequence;
 
     }
@@ -19,9 +20,10 @@ public class IdFactory
     public static string NextUuid()
     {
         sequence++;
+        string seqStr = "" + sequence;
         string uuid = Guid.NewGuid().ToString();
-        idDictionary.Add(sequence, uuid);
-        uuidDictionary.Add(uuid, sequence);
+        idDictionary.Add(seqStr, uuid);
+        uuidDictionary.Add(uuid, seqStr);
         return uuid;
     }
 
@@ -29,7 +31,7 @@ public class IdFactory
     {
         if (uuidDictionary.ContainsKey(uuid))
         {
-            return uuidDictionary[uuid];
+            return long.Parse(uuidDictionary[uuid]);
         }
         else
         {
@@ -37,7 +39,7 @@ public class IdFactory
         }
     }
     
-    public static string lookupSequence(int seq)
+    public static string lookupSequence(string seq)
     {
         if (idDictionary.ContainsKey(seq))
         {
