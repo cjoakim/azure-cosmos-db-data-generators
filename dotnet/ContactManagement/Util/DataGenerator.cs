@@ -36,8 +36,8 @@ namespace ContactManagement.Util
         public static void generate(string format)
         {
             generateCompanies(format);
-            generateContacts(format);
-            generateContactMethods(format);
+            //generateContacts(format);
+            //generateContactMethods(format);
 
             Console.WriteLine($"companyNameDict count: {uniqueCompanyDict.Count}");
             FileUtil.writeObjectAsJson(uniqueCompanyDict, "data/companyNameDict.json");
@@ -48,6 +48,7 @@ namespace ContactManagement.Util
             Console.WriteLine("generateCompanies...");
             List<Company> companyList = new List<Company>();
 
+            // first create "small businesses" which will have fewer contacts
             for (int i = 0; i < smallBusinessCount; i++)
             {
                 string name = newUniqueCompanyName(false);
@@ -67,6 +68,7 @@ namespace ContactManagement.Util
                 }
             }
 
+            // next create "corporations" with many more contacts than small businesses
             for (int i = 0; i < corporationCount; i++)
             {
                 var faker = new Bogus.Faker();
@@ -79,7 +81,7 @@ namespace ContactManagement.Util
                         companyDict.Add(c.pk, c);
                         if (i < 10)
                         {
-                            Console.WriteLine($"company {name} is jumbo");
+                            // some of the corporations will be "jumbo" with many many contacts
                             c.jumbo = true;
                         }
                         uniqueCompanyDict.Add(c.name, "");
@@ -91,8 +93,32 @@ namespace ContactManagement.Util
                     }
                 }
             }
-            Console.WriteLine($"companyList count: {companyList.Count}");
-            FileUtil.writeObjectAsJson(companyList, "data/companyList.json");
+
+            switch (format)
+            {
+                case (AppConfig.FORMAT_CSV):
+                    List<string> lines = new List<string>();
+                    for (int i = 0; i < companyList.Count; i++)
+                    {
+                        Company c = companyList[i];
+                        if (i == 0)
+                        {
+                            lines.Add(c.csvHeader());
+                        }
+                        lines.Add(c.asCsv());
+                    }
+                    Console.WriteLine($"companyList count: {companyList.Count}");
+                    FileUtil.writeLines(lines, "data/companies.csv");
+                    
+                    break;
+
+                default:
+                    // default to JSON
+                    Console.WriteLine($"companyList count: {companyList.Count}");
+                    FileUtil.writeObjectAsJson(companyList, "data/companies.json");
+                    break;
+            }
+
             Thread.Sleep(1000);
         }
 
@@ -187,15 +213,8 @@ namespace ContactManagement.Util
             var faker = new Bogus.Faker();
             Company c = new Company();
             c.id = IdFactory.NextUuid();
-            if (seq >= 0)
-            {
-                c.pk = "corp" + seq;
-            }
-            else
-            {
-                c.pk = "corp" + epoch();   
-            }
-            c.company_id = c.pk;
+            c.company_id = IdFactory.NextUuid();
+            c.pk = c.company_id;
             c.name = newUniqueCompanyName(isCorp);
             if (isCorp)
             {
@@ -206,6 +225,12 @@ namespace ContactManagement.Util
                 c.org_type = AppConstants.ORG_TYPE_SMALL_BUSINESS;
             }
             c.hq_state = faker.Address.StateAbbr();
+            c.created_on = DateTime.Now;
+            c.created_by = "migration";
+            c.modified_on = DateTime.Now;
+            c.modified_by = "migration";
+            c.expiration_date = null;
+            c.is_deleted = false;
             return c;
         }
         

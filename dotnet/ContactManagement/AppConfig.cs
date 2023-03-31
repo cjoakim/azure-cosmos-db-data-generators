@@ -21,6 +21,9 @@ namespace ContactManagement
 
         public const int AZURE_COSMOSDB_DEFAULT_BULK_BATCH_SIZE = 1000;
 
+        public const string FORMAT_CSV  = "csv";
+        public const string FORMAT_JSON = "json";
+
         // Constants; command-line and keywords:
         public const string VERBOSE_FLAG = "--verbose";
 

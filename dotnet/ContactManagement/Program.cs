@@ -33,7 +33,7 @@ namespace ContactManagement
                 switch (cliFunction)
                 {
                     case "generate":
-                        await Generate(args[0]);
+                        await Generate(args[1].ToLower());
                         break;
                     default:
                         PrintCliExamples($"invalid cliFunction: {cliFunction}");
