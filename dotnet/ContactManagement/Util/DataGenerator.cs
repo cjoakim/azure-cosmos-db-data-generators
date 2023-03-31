@@ -260,13 +260,19 @@ namespace ContactManagement.Util
             c.id = IdFactory.NextUuid();
             c.pk = company.pk;
             c.doctype = AppConstants.DOCTYPE_CONTACT;
+            c.company_id = company.company_id;
             c.contact_id = c.id;
-            c.company_id = company.id;
             c.name = (new Bogus.Faker().Person.FullName) + " " + contactSeq;  // contactSeq is a hack to work around the Faker limited namespace
             c.preferred_contact_method = randomContactMethod();
             c.addRole(randomRole());
             c.addNotificationPreference(randomNotificationPreference());
             c.calculateUniqueKey();
+            c.created_on = DateTime.Now;
+            c.created_by = "migration";
+            c.modified_on = DateTime.Now;
+            c.modified_by = "migration";
+            c.expiration_date = null;
+            c.is_deleted = false;
             return c;
         }
 
@@ -382,6 +388,12 @@ namespace ContactManagement.Util
                     break;
             }
             cm.memo = "As of " + DateTime.Now.ToString("d");
+            cm.created_on = DateTime.Now;
+            cm.created_by = "migration";
+            cm.modified_on = DateTime.Now;
+            cm.modified_by = "migration";
+            cm.expiration_date = null;
+            cm.is_deleted = false;
             return cm;
         }
         

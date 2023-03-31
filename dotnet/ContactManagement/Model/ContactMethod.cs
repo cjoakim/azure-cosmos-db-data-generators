@@ -22,12 +22,12 @@
         
         // Additional attributes
         
-        public DateTime created_on { get; set; }
-        public string   created_by { get; set; }
-        public DateTime modified_on { get; set; }
-        public string   modified_by { get; set; }
-        public DateTime expiration_date { get; set; }
-        public bool     is_deleted { get; set; }
+        public DateTime  created_on { get; set; }
+        public string    created_by { get; set; }
+        public DateTime  modified_on { get; set; }
+        public string    modified_by { get; set; }
+        public DateTime? expiration_date { get; set; }
+        public bool      is_deleted { get; set; }
         
         public ContactMethod()
         {
@@ -51,6 +51,7 @@
             values.Add(("" + is_deleted).ToLower());
             return string.Join(",", values);
         }
+
         public string csvHeader()
         {
             return "id,company_id,contact_id,type,value,memo,created_on,created_by,modified_on,modified_by,expiration_date,is_deleted";

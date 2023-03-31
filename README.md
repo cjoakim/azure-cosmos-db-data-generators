@@ -21,3 +21,30 @@ A collection of data generator utilities for Cosmos DB - NoSQL, Mongo, and Postg
 ### Tools
 
 - https://synthetichealth.github.io/synthea/
+
+
+---
+
+## Sample PostgreSQL Queries
+
+```
+SELECT
+    con.company_id, con.name, ctc.contact_id, ctc.name
+FROM
+    companies as con
+INNER JOIN contacts as ctc
+    ON con.company_id = ctc.company_id
+where con.company_id in (1000002, 1000004)
+order by con.company_id, ctc.name;
+```
+
+```
+
+SELECT
+    *
+FROM
+    contacts
+INNER JOIN contact_methods
+    ON  contacts.company_id = contact_methods.company_id
+    AND contacts.contact_id = contact_methods.contact_id;
+```
