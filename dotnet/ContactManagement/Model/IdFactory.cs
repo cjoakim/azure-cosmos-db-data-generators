@@ -13,7 +13,6 @@ public class IdFactory
         lookupDictionary.Add(seqStr, uuid);
         lookupDictionary.Add(uuid, seqStr);
         return sequence;
-
     }
     
     public static string NextUuid()

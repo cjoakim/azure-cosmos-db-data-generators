@@ -36,8 +36,8 @@ namespace ContactManagement.Util
         public static void generate(string format)
         {
             generateCompanies(format);
-            //generateContacts(format);
-            //generateContactMethods(format);
+            generateContacts(format);
+            generateContactMethods(format);
 
             Console.WriteLine($"companyNameDict count: {uniqueCompanyDict.Count}");
             FileUtil.writeObjectAsJson(uniqueCompanyDict, "data/companyNameDict.json");
@@ -107,14 +107,13 @@ namespace ContactManagement.Util
                         }
                         lines.Add(c.asCsv());
                     }
-                    Console.WriteLine($"companyList count: {companyList.Count}");
+                    Console.WriteLine($"companies count: {companyList.Count}");
                     FileUtil.writeLines(lines, "data/companies.csv");
-                    
                     break;
 
                 default:
                     // default to JSON
-                    Console.WriteLine($"companyList count: {companyList.Count}");
+                    Console.WriteLine($"companies count: {companyList.Count}");
                     FileUtil.writeObjectAsJson(companyList, "data/companies.json");
                     break;
             }
@@ -201,9 +200,29 @@ namespace ContactManagement.Util
                     }
                 }
             }
+            switch (format)
+            {
+                case (AppConfig.FORMAT_CSV):
+                    List<string> lines = new List<string>();
+                    for (int i = 0; i < contactList.Count; i++)
+                    {
+                        Contact c = contactList[i];
+                        if (i == 0)
+                        {
+                            lines.Add(c.csvHeader());
+                        }
+                        lines.Add(c.asCsv());
+                    }
+                    Console.WriteLine($"contacts count: {contactList.Count}");
+                    FileUtil.writeLines(lines, "data/contacts.csv");
+                    break;
 
-            Console.WriteLine($"contactList count: {contactList.Count}");
-            FileUtil.writeObjectAsJson(contactList, "data/contactList.json");
+                default:
+                    // default to JSON
+                    Console.WriteLine($"contacts count: {contactList.Count}");
+                    FileUtil.writeObjectAsJson(contactList, "data/contacts.json");
+                    break;
+            }
             Thread.Sleep(1000);
         }
 
@@ -313,8 +332,30 @@ namespace ContactManagement.Util
                 contactMethodsList.Add(cm);
             }
 
-            Console.WriteLine($"contactMethodsList count: {contactMethodsList.Count}");
-            FileUtil.writeObjectAsJson(contactMethodsList, "data/contactMethodsList.json");
+            switch (format)
+            {
+                case (AppConfig.FORMAT_CSV):
+                    List<string> lines = new List<string>();
+                    for (int i = 0; i < contactMethodsList.Count; i++)
+                    {
+                        ContactMethod c = contactMethodsList[i];
+                        if (i == 0)
+                        {
+                            lines.Add(c.csvHeader());
+                        }
+                        lines.Add(c.asCsv());
+                    }
+                    Console.WriteLine($"contact_methods count: {contactMethodsList.Count}");
+                    FileUtil.writeLines(lines, "data/contact_methods.csv");
+                    
+                    break;
+
+                default:
+                    // default to JSON
+                    Console.WriteLine($"contact_methods count: {contactMethodsList.Count}");
+                    FileUtil.writeObjectAsJson(contactMethodsList, "data/contact_methods.json");
+                    break;
+            }
             Thread.Sleep(1000);
         }
 

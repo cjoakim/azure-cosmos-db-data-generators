@@ -31,6 +31,11 @@
         public DateTime? expiration_date { get; set; }
         public bool     is_deleted { get; set; }
 
+        public Company()
+        {
+            this.doctype = AppConstants.DOCTYPE_COMPANY;
+            this.jumbo = false;
+        }
         public string asCsv()
         {
             List<string> values = new List<string>();
@@ -59,12 +64,6 @@
             return s= "\"" + s+ "\"";
         }
         
-        public Company()
-        {
-            this.doctype = AppConstants.DOCTYPE_COMPANY;
-            this.jumbo = false;
-        }
-
         public bool isSmallBusiness()
         {
             return AppConstants.ORG_TYPE_SMALL_BUSINESS.Equals(org_type);

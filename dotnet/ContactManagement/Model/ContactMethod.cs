@@ -34,6 +34,33 @@
             this.doctype = AppConstants.DOCTYPE_CONTACT_METHOD;
         }
 
+        public string asCsv()
+        {
+            List<string> values = new List<string>();
+            values.Add(id);
+            values.Add(IdFactory.lookup(company_id));
+            values.Add(IdFactory.lookup(contact_id));
+            values.Add(quoted(type));
+            values.Add(quoted(value));
+            values.Add(quoted(memo));
+            values.Add("" + created_on);
+            values.Add(created_by);
+            values.Add("" + modified_on);
+            values.Add(quoted(modified_by));
+            values.Add("" + expiration_date);
+            values.Add(("" + is_deleted).ToLower());
+            return string.Join(",", values);
+        }
+        public string csvHeader()
+        {
+            return "id,company_id,contact_id,type,value,memo,created_on,created_by,modified_on,modified_by,expiration_date,is_deleted";
+        }
+
+        private string quoted(string s)
+        {
+            return s= "\"" + s+ "\"";
+        }
+        
         public ContactMethod(Contact contact)
         {
             this.contact_id = contact.id;
