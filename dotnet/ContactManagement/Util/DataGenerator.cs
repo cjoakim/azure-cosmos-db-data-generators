@@ -20,7 +20,15 @@ namespace ContactManagement.Util
         private static int corporationCount      =  100;
         private static int contactSeq = 0;
         private static int companySeq = 0;
-
+        // Actual counts shared 2/11:
+        // Live Tenants - 8,089; # Contacts - 563,475,057
+        // Contacts distribution per tenant - (Tenants with > 1K Contacts)
+        // Tenant Count:  7,588 
+        // Avg:          74,241
+        // Min:           1,024
+        // Max:       4,620,697
+        // Median:       27,252
+            
         // Parameters: Contacts
         private static int maxContactsPerSmallBusiness = 3;
         private static int maxContactsPerCorporation = 10;
@@ -43,11 +51,6 @@ namespace ContactManagement.Util
             FileUtil.writeObjectAsJson(uniqueCompanyDict, "data/companyNameDict.json");
         }
 
-        public static void generateCsvFiles()
-        {
-            Console.WriteLine("TODO - implement");
-        }
-
         private static void generateCompanies(string format)
         {
             Console.WriteLine("generateCompanies...");
@@ -62,13 +65,13 @@ namespace ContactManagement.Util
                     try
                     {
                         Company c = createCompany(false, i);
-                        companyDict.Add("" + c.pk, c);
+                        companyDict.Add(c.pk, c);
                         uniqueCompanyDict.Add(c.name, "");
                         companyList.Add(c);
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
-                        Console.WriteLine(e);
+                        //Console.WriteLine(e);
                     }
                 }
             }
@@ -82,7 +85,7 @@ namespace ContactManagement.Util
                     Company c = createCompany(true, i);
                     try
                     {
-                        companyDict.Add("" + c.pk, c);
+                        companyDict.Add(c.pk, c);
                         if (i < 10010)
                         {
                             Console.WriteLine($"company {name} is jumbo");
@@ -143,6 +146,7 @@ namespace ContactManagement.Util
                     break; // we've run out of values in Bogus
                 }
             }
+
             return null;
         }
 
@@ -193,19 +197,26 @@ namespace ContactManagement.Util
             companySeq++;
             var faker = new Bogus.Faker();
             Company c = new Company();
-            c.id = IdSequence.Next();
-            c.pk = c.id;
-            c.company_id = c.pk;
-            c.name = newUniqueCompanyName(isCorp);
-            if (isCorp)
+            c.id = Guid.NewGuid().ToString();
+            if (seq >= 0)
             {
-                c.org_type = AppConstants.ORG_TYPE_CORPORATION;  
+                c.pk = "corp" + seq;
             }
             else
             {
-                c.org_type = AppConstants.ORG_TYPE_SMALL_BUSINESS;
+                c.pk = "corp" + epoch();   
             }
-            c.hq_state = faker.Address.StateAbbr();
+            c.companyId = c.pk;
+            c.name = newUniqueCompanyName(isCorp);
+            if (isCorp)
+            {
+                c.orgType = AppConstants.ORG_TYPE_CORPORATION;  
+            }
+            else
+            {
+                c.orgType = AppConstants.ORG_TYPE_SMALL_BUSINESS;
+            }
+            c.hqState = faker.Address.StateAbbr();
             return c;
         }
         
@@ -213,11 +224,11 @@ namespace ContactManagement.Util
         {
             contactSeq++;
             Contact c = new Contact();
-            c.id = IdSequence.Next();
+            c.id = IdFactory.NextUuid();
             c.pk = company.pk;
             c.doctype = AppConstants.DOCTYPE_CONTACT;
-            c.contact_id = c.id;
-            c.company_id = company.id;
+            c.contactId = c.id;
+            c.companyId = company.id;
             c.name = (new Bogus.Faker().Person.FullName) + " " + contactSeq;  // contactSeq is a hack to work around the Faker limited namespace
             c.preferredContactMethod = randomContactMethod();
             c.addRole(randomRole());
@@ -296,7 +307,7 @@ namespace ContactManagement.Util
         public static ContactMethod createContactMethod(Contact contact)
         {
             ContactMethod cm = new ContactMethod(contact);
-            cm.company_id = contact.company_id;
+            cm.companyId = contact.companyId;
             cm.type = contact.preferredContactMethod;
 
             switch (contact.preferredContactMethod)

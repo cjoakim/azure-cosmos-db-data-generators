@@ -9,7 +9,7 @@
     
     public class ContactMethod : BaseDocument
     {
-        public string contact_id { get; set; }
+        public string contactId { get; set; }
         public string type { get; set; }
         public string value { get; set; }
         public string uniqueKey { get; set; }
@@ -22,15 +22,15 @@
 
         public ContactMethod(Contact contact)
         {
-            this.id = IdSequence.Next();
+            this.id = Guid.NewGuid().ToString();
             this.pk = contact.pk;
-            this.contact_id = contact_id;
+            this.contactId = contact.id;
             this.doctype = AppConstants.DOCTYPE_CONTACT_METHOD;
         }
 
         public string calculateUniqueKey()
         {
-            uniqueKey = $"{pk}|{contact_id}|{type}|{value}".Trim().ToLower();
+            uniqueKey = $"{pk}|{contactId}|{type}|{value}".Trim().ToLower();
             return uniqueKey;
         }
     }
