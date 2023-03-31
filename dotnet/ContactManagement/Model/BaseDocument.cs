@@ -12,17 +12,13 @@
     
     public class BaseDocument
     {
-        public string id { get; set; }
-        public string pk { get; set; }
-        public string doctype { get; set; }
-        public string companyId { get; set; }
 
-        public string _etag { get; set; }
-        
-        public long _ts { get; set; }
+
+
         public BaseDocument()
         {
         }
     } 
 }
+
 

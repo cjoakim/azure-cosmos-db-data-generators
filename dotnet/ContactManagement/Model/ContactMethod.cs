@@ -7,12 +7,17 @@
      * Chris Joakim, Microsoft, 2023
      */
     
-    public class ContactMethod : BaseDocument
+    public class ContactMethod
     {
-        public string contactId { get; set; }
+        // Original attributes
+        public string id { get; set; }
+        public string pk { get; set; }
+        public string doctype { get; set; }
+        public string company_id { get; set; }
+        public string contact_id { get; set; }
         public string type { get; set; }
         public string value { get; set; }
-        public string uniqueKey { get; set; }
+        public string unique_key { get; set; }
         public string memo { get; set; }
         
         public ContactMethod()
@@ -22,14 +27,14 @@
 
         public ContactMethod(Contact contact)
         {
-            this.contactId = contact.id;
+            this.contact_id = contact.id;
             this.doctype = AppConstants.DOCTYPE_CONTACT_METHOD;
         }
 
         public string calculateUniqueKey()
         {
-            uniqueKey = $"{pk}|{contactId}|{type}|{value}".Trim().ToLower();
-            return uniqueKey;
+            unique_key = $"{pk}|{contact_id}|{type}|{value}".Trim().ToLower();
+            return unique_key;
         }
     }
 }

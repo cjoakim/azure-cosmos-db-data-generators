@@ -195,17 +195,17 @@ namespace ContactManagement.Util
             {
                 c.pk = "corp" + epoch();   
             }
-            c.companyId = c.pk;
+            c.company_id = c.pk;
             c.name = newUniqueCompanyName(isCorp);
             if (isCorp)
             {
-                c.orgType = AppConstants.ORG_TYPE_CORPORATION;  
+                c.org_type = AppConstants.ORG_TYPE_CORPORATION;  
             }
             else
             {
-                c.orgType = AppConstants.ORG_TYPE_SMALL_BUSINESS;
+                c.org_type = AppConstants.ORG_TYPE_SMALL_BUSINESS;
             }
-            c.hqState = faker.Address.StateAbbr();
+            c.hq_state = faker.Address.StateAbbr();
             return c;
         }
         
@@ -216,10 +216,10 @@ namespace ContactManagement.Util
             c.id = IdFactory.NextUuid();
             c.pk = company.pk;
             c.doctype = AppConstants.DOCTYPE_CONTACT;
-            c.contactId = c.id;
-            c.companyId = company.id;
+            c.contact_id = c.id;
+            c.company_id = company.id;
             c.name = (new Bogus.Faker().Person.FullName) + " " + contactSeq;  // contactSeq is a hack to work around the Faker limited namespace
-            c.preferredContactMethod = randomContactMethod();
+            c.preferred_contact_method = randomContactMethod();
             c.addRole(randomRole());
             c.addNotificationPreference(randomNotificationPreference());
             c.calculateUniqueKey();
@@ -297,10 +297,10 @@ namespace ContactManagement.Util
         {
             ContactMethod cm = new ContactMethod(contact);
             cm.id = IdFactory.NextUuid();
-            cm.companyId = contact.companyId;
-            cm.type = contact.preferredContactMethod;
+            cm.company_id = contact.company_id;
+            cm.type = contact.preferred_contact_method;
 
-            switch (contact.preferredContactMethod)
+            switch (contact.preferred_contact_method)
             {
                 case AppConstants.CONTACT_METHOD_EMAIL:
                     cm.value = new Bogus.Faker().Internet.Email();
@@ -315,7 +315,6 @@ namespace ContactManagement.Util
                     cm.value = new Bogus.Faker().Address.FullAddress();
                     break;
             }
-
             cm.memo = "As of " + DateTime.Now.ToString("d");
             return cm;
         }

@@ -7,12 +7,17 @@
      * Chris Joakim, Microsoft, 2023
      */
     
-    public class Contact : BaseDocument
+    public class Contact
     {
-        public string contactId { get; set; }   // enables easy joins to ContactMethod documents
+        // Original attributes
+        public string id { get; set; }
+        public string pk { get; set; }
+        public string doctype { get; set; }
+        public string company_id { get; set; }
+        public string contact_id { get; set; }
         public string name { get; set; }
-        public string preferredContactMethod { get; set; }
-        public string uniqueKey { get; set; }
+        public string preferred_contact_method { get; set; }
+        public string unique_key { get; set; }
         public List<string> roles { get; set; }
         public List<string> notificationPreferences { get; set; }
 
@@ -55,8 +60,8 @@
         {
             // Assume, for now, that names are unique within a Company.
             // email address would be a better uniqueness component.
-            uniqueKey = $"{pk}|{name}".Trim().ToLower();
-            return uniqueKey;
+            unique_key = $"{pk}|{name}".Trim().ToLower();
+            return unique_key;
         }
     }
 }
