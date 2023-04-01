@@ -1,5 +1,3 @@
-// Chris Joakim, Microsoft
-
 using Newtonsoft.Json;
 
 namespace ContactManagement

@@ -4,11 +4,11 @@ using Newtonsoft.Json;
 namespace ContactManagement.Util
 {
     /**
-     * This class is used to generate the simulated data for the POC.
+     * This class is used to generate JSON or CSV data for a simulated
+     * Contact Management application.  Files are written to the data/
+     * directory, and are then used to load the target database.
+     *
      * See Program.cs and the main method.
-     * 
-     * It writes *.json files to the data/ directory, and are then used in the
-     * Cosmos DB bulk loading process.
      *
      * Chris Joakim, Microsoft, 2023
      */ 
@@ -16,14 +16,14 @@ namespace ContactManagement.Util
     public class DataGenerator
     {
         // Parameters: Companies
-        private static int smallBusinessCount = 100;  // 1000
-        private static int corporationCount   =  10;  // 100
+        private static int smallBusinessCount = 1000;
+        private static int corporationCount   =  100;
         private static int contactSeq = 0;
         private static int companySeq = 0;
 
         // Parameters: Contacts
-        private static int maxContactsPerSmallBusiness = 3;
-        private static int maxContactsPerCorporation   = 10;
+        private static int maxContactsPerSmallBusiness =  3;
+        private static int maxContactsPerCorporation   = 12;
 
         // Generated Data Objects
         private static Dictionary<string, Company> companyDict = new Dictionary<string, Company>();

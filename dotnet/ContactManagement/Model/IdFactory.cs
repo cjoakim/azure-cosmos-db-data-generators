@@ -1,5 +1,16 @@
 namespace ContactManagement.Model;
 
+/**
+* This class is used to generate both UUID and id/sequence values
+* in the data generation process.  It also contains lookup logic
+* so that either Cosmos DB NoSQL JSON documents can be generated
+* with UUID value, while Cosmos DB PostgreSQL CSV rows can be generated
+* with id/sequence values.  This allows the various objects or rows
+* to be correlated via these identifiers.
+*
+* Chris Joakim, Microsoft, 2023
+*/
+
 public class IdFactory
 {
     private static long sequence = 1000000;

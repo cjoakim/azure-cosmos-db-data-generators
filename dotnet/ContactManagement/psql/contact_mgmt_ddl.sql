@@ -1,3 +1,11 @@
+-- PostgreSQL DDL to demonstrate the loading of the generated
+-- CSV files in this project.  Modify as necessary for indexing,
+-- Cosmos DB distributed table creation, etc..
+--
+-- NOTE: Replace the '/Users/chjoakim/.../data/' paths below
+-- with your filesystem location!
+--
+-- Chris Joakim, Microsoft, 2023
 
 DROP TABLE IF EXISTS companies CASCADE;
 DROP TABLE IF EXISTS contacts CASCADE;
