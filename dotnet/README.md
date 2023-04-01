@@ -40,7 +40,7 @@ File written: data/contact_methods.csv
 ...
 ```
 
-### Modify the Code as Necessary
+### Modify the Data-Generation Code as Necessary
 
 For more or less data, modify class DataGenerator.
 
